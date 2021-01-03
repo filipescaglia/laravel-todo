@@ -54,9 +54,36 @@ class ApiController extends Controller
         return $response;
     }
 
-    public function update()
+    public function update(int $id, Request $request)
     {
-        
+        $response = ['error' => ''];
+
+        $rules = [
+            'title' => 'min:3',
+            'done' => 'boolean'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if($validator->fails()) {
+            $response['error'] = $validator->messages();
+            return $response;
+        }
+
+        $title = $request->input('title');
+        $done = $request->input('done');
+
+        $todo = Todo::find($id);
+        if($todo) {
+
+            if($title) $todo->title = $title;
+            if($done !== NULL) $todo->done = $done;
+
+            $todo->save();
+
+        } else $response['error'] = "Task $id does not exists";
+
+        return $response;
     }
 
     public function delete()
