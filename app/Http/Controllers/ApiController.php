@@ -37,7 +37,10 @@ class ApiController extends Controller
     {
         $response = ['error' => ''];
 
-        $response['result'] = Todo::all();
+        $todos = Todo::simplePaginate(10);
+
+        $response['result']['items'] = $todos->items();
+        $response['result']['current_page'] = $todos->currentPage();
 
         return $response;
     }
