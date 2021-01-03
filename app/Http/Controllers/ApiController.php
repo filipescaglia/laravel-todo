@@ -35,7 +35,11 @@ class ApiController extends Controller
 
     public function index()
     {
-        
+        $response = ['error' => ''];
+
+        $response['result'] = Todo::all();
+
+        return $response;
     }
 
     public function show()
