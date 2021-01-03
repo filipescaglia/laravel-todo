@@ -42,9 +42,16 @@ class ApiController extends Controller
         return $response;
     }
 
-    public function show()
+    public function show(int $id)
     {
-        
+        $response = ['error' => ''];
+
+        $todo = Todo::find($id);
+
+        if($todo) $response['result'] = $todo;
+        else $response['error'] = "Task $id does not exists";
+
+        return $response;
     }
 
     public function update()
