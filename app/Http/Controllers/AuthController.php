@@ -39,7 +39,23 @@ class AuthController extends Controller
         return $response;
     }
 
+    // JWT
     public function login(Request $request)
+    {
+        $response = ['error' => ''];
+
+        $creds = $request->only('email', 'password');
+
+        $token = Auth::attempt($creds);
+
+        if($token) $response['token'] = $token;
+        else $response['error'] = "E-mail or password incorrect.";
+
+        return $response;
+    }
+
+    // SANCTUM
+    /* public function login(Request $request)
     {
         $response = ['error' => ''];
 
@@ -57,14 +73,15 @@ class AuthController extends Controller
         } else $response['error'] = "E-mail or password incorrect.";
 
         return $response;
-    }
+    } */
 
     public function logout(Request $request)
     {
         $response = ['error' => ''];
 
-        $user = $request->user();
-        $user->tokens()->delete();
+        Auth::logout();
+        /* $user = $request->user();
+        $user->tokens()->delete(); */
 
         return $response;
     }

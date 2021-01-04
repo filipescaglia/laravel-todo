@@ -17,15 +17,15 @@ Route::get('/unauthenticated', function () {
 })->name('login');
 
 Route::post('/user', [AuthController::class, 'create']);
-Route::middleware('auth:sanctum')->get('/auth/logout', [AuthController::class, 'logout']);
-Route::post('/auth', [AuthController::class, 'login']);
+Route::post('/auth/login', [AuthController::class, 'login']);
+Route::middleware('auth:api')->post('/auth/logout', [AuthController::class, 'logout']);
 
-Route::middleware('auth:sanctum')->post('/todo', [ApiController::class, 'store']);
+Route::middleware('auth:api')->post('/todo', [ApiController::class, 'store']);
 
 Route::get('/todos', [ApiController::class, 'index']);
 
 Route::get('/todo/{id}', [ApiController::class, 'show']);
 
-Route::middleware('auth:sanctum')->put('/todo/{id}', [ApiController::class, 'update']);
+Route::middleware('auth:api')->put('/todo/{id}', [ApiController::class, 'update']);
 
-Route::middleware('auth:sanctum')->delete('/todo/{id}', [ApiController::class, 'delete']);
+Route::middleware('auth:api')->delete('/todo/{id}', [ApiController::class, 'delete']);
